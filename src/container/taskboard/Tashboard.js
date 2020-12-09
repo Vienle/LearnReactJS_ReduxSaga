@@ -4,42 +4,25 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TaskList from './../../components/taskList/index'
 import Form from './../../components/form/index'
+import {connect} from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as taskActions from './../../actions/task'
 
-const taskList = [
-    {
-        id : 1,
-        name : "Learn Reactjs",
-        description : "Learn Reactjs",
-        status : 0
-    },
-    {
-        id : 2,
-        name : "Learn Vue JS",
-        description : "Learn Vue JS",
-        status : 1
-    },
-    {
-        id : 3,
-        name : "Learn Java",
-        description : "Learn Java",
-        status : 2
-    },
-]
-
-export default class Tashboard extends Component {
+export class Tashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
             openForm : false
         }
     }
-        
+    
     renderBoard(){
+        const { listTask } = this.props;
         let xhtml = null;
         xhtml = (
             <TaskList
                 listStatus={STATUS}
-                tasks={taskList}
+                tasks={listTask}
             />
         )
         return xhtml;
@@ -65,8 +48,21 @@ export default class Tashboard extends Component {
             openForm : false
         })
     }
+    
+    // componentWillMount(){
+    //     console.log("222222")
+    //     const { taskActionsCreator } = this.props;
+    //     const { fetchListTaskRequest } = taskActionsCreator;
+    //     fetchListTaskRequest();
+    // }
 
+    componentDidMount(){
+        const { taskActionsCreator } = this.props;
+        const { fetchListTaskRequest } = taskActionsCreator;
+        fetchListTaskRequest();
+    }
     render() {
+        
         return (
             <div>
                 <Button 
@@ -82,3 +78,15 @@ export default class Tashboard extends Component {
         )
     }
 }
+
+const mapStateToProp = (state,props) => {
+    return{
+        listTask : state.task.listTask
+    }
+};
+const mapDispatchToProps = dispatch => {
+    return{
+        taskActionsCreator: bindActionCreators(taskActions,dispatch),
+    }
+}
+export default connect(mapStateToProp,mapDispatchToProps)(Tashboard);

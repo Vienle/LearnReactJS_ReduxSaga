@@ -1,15 +1,16 @@
+export const API_ENDPOINT = 'https://5fb3b0d9b6601200168f7bcf.mockapi.io/demo';
 
 export const STATUS = [
     {
-        value : 0,
+        value : 1,
         label : 'READY'
     },
     {
-        value : 1,
+        value : 2,
         label : 'IN PROGRESS'
     },
     {
-        value : 2,
+        value : 3,
         label : 'COMPLETED'
     },
 ]
